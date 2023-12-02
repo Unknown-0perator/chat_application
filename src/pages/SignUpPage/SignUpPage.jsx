@@ -1,5 +1,6 @@
 import './SignUpPage.scss';
 import Header from '../../components/Header/Header';
+import CTA from '../../components/CTA/CTA';
 
 const SignUpPage = () => {
     return (
@@ -22,10 +23,7 @@ const SignUpPage = () => {
                     <button className="form__submit">Sign Up</button>
                 </form>
 
-                <div className="cta">
-                    <p className="cta__text">Already have an account?</p>
-                    <button className="cta__button">Login</button>
-                </div>
+                <CTA text='Already have an account?' buttonText='Login' to='/login' />
             </div>
         </div>
     )

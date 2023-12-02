@@ -1,5 +1,6 @@
 import './LoginPage.scss';
 import Header from '../../components/Header/Header';
+import CTA from '../../components/CTA/CTA';
 
 const LoginPage = () => {
     return (
@@ -17,11 +18,7 @@ const LoginPage = () => {
                     </div>
                     <button className="form__submit">Login</button>
                 </form>
-
-                <div className="cta">
-                    <p className="cta__text">Don't have an account?</p>
-                    <button className="cta__button">Sign Up</button>
-                </div>
+                <CTA text="Don't have an account?" buttonText='Sign Up' to='/sign-up' />
             </div>
         </div>
     )
