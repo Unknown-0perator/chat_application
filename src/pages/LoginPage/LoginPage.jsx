@@ -5,7 +5,7 @@ import CTA from '../../components/CTA/CTA';
 const LoginPage = () => {
     return (
         <div className="page">
-            <div className="login">
+            <div className="container">
                 <Header />
                 <form className="form">
                     <div className="form__group">

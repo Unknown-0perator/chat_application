@@ -5,7 +5,7 @@ import CTA from '../../components/CTA/CTA';
 const SignUpPage = () => {
     return (
         <div className="page">
-            <div className="login">
+            <div className="container">
                 <Header text='Create new account' />
                 <form className="form">
                     <div className="form__group">
