@@ -15,7 +15,7 @@ const App = () => {
 
             <Routes>
                 <Route path='/' element={<LoginPage API_URL={API_URL} />} />
-                <Route path='sign-up' element={<SignUpPage />} />
+                <Route path='sign-up' element={<SignUpPage API_URL={API_URL} />} />
                 <Route path='chat-room' element={<ChatRoom />} />
             </Routes>
         </BrowserRouter>
