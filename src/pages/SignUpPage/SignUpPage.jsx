@@ -1,12 +1,22 @@
 import './SignUpPage.scss';
 import Header from '../../components/Header/Header';
 import CTA from '../../components/CTA/CTA';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../store/actions/authActions';
+import { setProfileData } from '../../store/actions/userActions';
 
-const SignUpPage = ({ API_URL }) => {
+const SignUpPage = ({ API_URL, isLoggedIn, loginAction, setProfileData }) => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(isLoggedIn)
+        if (isLoggedIn) {
+            navigate('/')
+        }
+    }, [navigate, isLoggedIn])
 
     const [signUpCredential, setSignUpCredential] = useState({
         username: '',
@@ -35,13 +45,18 @@ const SignUpPage = ({ API_URL }) => {
             if (response.status === 201) {
                 const authToken = response.data.token;
                 sessionStorage.authToken = authToken;
+                setProfileData(response.data)
+                loginAction();
+                setTimeout(() => {
+                    navigate('/');
+                });
 
-                navigate('/chat-room')
             }
         }).catch(err => alert(`Error: ${err.message}`))
 
-        event.target.reset();
         setSignUpCredential('')
+
+        event.target.reset();
 
     }
 
@@ -71,4 +86,15 @@ const SignUpPage = ({ API_URL }) => {
     )
 }
 
-export default SignUpPage;
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    profileData: state.user.profileData
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    loginAction: () => dispatch(login()),
+    setProfileData: (data) => dispatch(setProfileData(data)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
