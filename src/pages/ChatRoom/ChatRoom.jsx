@@ -9,29 +9,21 @@ import './ChatRoom.scss';
 
 const socket = io(process.env.REACT_APP_BACKEND_URL);
 
-const ChatRoom = ({ messages, sendMessage, receiveMessage, profileData }) => {
-    const { chatUserId } = useParams();
-    const userId = profileData._id
+const ChatRoom = ({ messages, sendMessage, receiveMessage, profileData, searchedUserData }) => {
+    const { id } = useParams()
     const [newMessage, setNewMessage] = useState('');
-
     useEffect(() => {
-        // Handle 'chat message' events from the server
         socket.on('chat message', (message) => {
             receiveMessage(message);
         });
-
-        // Clean up on component unmount
+        scrollToBottom();
         return () => {
             socket.off('chat message');
         };
-    }, [receiveMessage]);
+
+    }, [messages, receiveMessage]);
 
     const messagesContainerRef = useRef(null);
-
-    useEffect(() => {
-        // Scroll to the bottom when messages change
-        scrollToBottom();
-    }, [messages]);
 
     const scrollToBottom = () => {
         if (messagesContainerRef.current) {
@@ -39,24 +31,20 @@ const ChatRoom = ({ messages, sendMessage, receiveMessage, profileData }) => {
         }
     };
 
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
         const trimmedMessage = newMessage.trim();
 
         if (trimmedMessage !== '') {
+            await Promise.all([profileData, searchedUserData]);
             const message = {
-                userId,
+                senderId: profileData._id,
+                recipientId: searchedUserData._id || id,
                 text: trimmedMessage,
-                timestamp: new Date().toLocaleTimeString(),
+                timestamp: new Date().toLocaleString(),
             };
-
-            // Emit a 'chat message' event to the server
             socket.emit('chat message', message);
-
-            // Dispatch the sendMessage action to update Redux state
             sendMessage(message);
-
-            // Clear the input field
             setNewMessage('');
         }
     };
@@ -65,15 +53,12 @@ const ChatRoom = ({ messages, sendMessage, receiveMessage, profileData }) => {
         <div className="page">
             <div className="container chat-room">
                 <div className="chat-room__header">
-                    <Link className="chat-room__back-button" to="/">
-                        {/* Your back button SVG or text */}
-                    </Link>
-                    <p className="chat-room__receiver">Chatting with User {chatUserId}</p>
+                    <p className="chat-room__receiver">Chatting with User {searchedUserData.fullName}</p>
                 </div>
 
                 <ul className="chat-room__list" ref={messagesContainerRef}>
                     {messages.map((message, index) => (
-                        <li key={index} className={`chat-room__message chat-room__message--${message.userId === userId ? 'send' : 'receive'}`}>
+                        <li key={index} className={`chat-room__message chat-room__message--${message.senderId === profileData._id ? 'send' : 'receive'}`}>
                             <p className="chat-room__text">{message.text}</p>
                             <span className="chat-room__timestamp">{message.timestamp}</span>
                         </li>
@@ -100,9 +85,9 @@ const ChatRoom = ({ messages, sendMessage, receiveMessage, profileData }) => {
 };
 
 const mapStateToProps = (state) => ({
-    userId: state.user.userId,
     messages: state.chat.messages,
-    profileData: state.user.profileData
+    profileData: state.user.profileData,
+    searchedUserData: state.search.searchedUserData,
 });
 
 const mapDispatchToProps = (dispatch) => ({

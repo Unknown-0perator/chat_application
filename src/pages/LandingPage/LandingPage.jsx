@@ -4,17 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { setSearchedUserData } from '../../store/actions/searchedUserAction';
 
 
 
-const LandingPage = ({ API_URL, isLoggedIn }) => {
+const LandingPage = ({ API_URL, isLoggedIn, setSearchedUserData, searchedUserData }) => {
     const navigate = useNavigate();
 
     const [searchCredential, setSearchCredential] = useState({
         search: '',
     });
 
-    const [search, setSearch] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -35,8 +35,8 @@ const LandingPage = ({ API_URL, isLoggedIn }) => {
             const response = await axios.post(`${API_URL}/user/search`, {
                 username: searchCredential.search
             }, authorization);
-            setSearch(response.data);
-
+            setSearchedUserData(response.data)
+            setSearchCredential({ search: '' });
         } catch (error) {
             console.error('Error searching for user:', error);
             setError('An error occurred while searching for the user.');
@@ -65,10 +65,10 @@ const LandingPage = ({ API_URL, isLoggedIn }) => {
                 <div className="user">
                     {loading && <p>Loading...</p>}
                     {error && <p className="error-message">{error}</p>}
-                    {search && (
+                    {searchedUserData && (
                         <ul className="user__list">
                             <li className="user__item">
-                                <Link to={`/chat-room/${search._id}`} className="user__name">{search.username}</Link>
+                                <Link to={`/chat-room/${searchedUserData._id}`} className="user__name">{searchedUserData.username}</Link>
                             </li>
                         </ul>
                     )}
@@ -83,6 +83,11 @@ const LandingPage = ({ API_URL, isLoggedIn }) => {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: state.auth.isLoggedIn,
+    searchedUserData: state.search.searchedUserData,
 });
 
-export default connect(mapStateToProps)(LandingPage);
+const mapDispatchToProps = (dispatch) => ({
+    setSearchedUserData: (data) => dispatch(setSearchedUserData(data)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
