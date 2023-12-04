@@ -78,8 +78,6 @@ const LandingPage = ({ API_URL, isLoggedIn }) => {
     );
 };
 
-// ... (mapStateToProps)
-
 
 
 

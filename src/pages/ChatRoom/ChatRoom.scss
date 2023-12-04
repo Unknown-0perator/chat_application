@@ -35,6 +35,9 @@
         width: 100%;
         gap: 16px;
         height: 50vh;
+        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     &__message {
