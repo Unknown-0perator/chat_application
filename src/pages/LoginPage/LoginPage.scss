@@ -1,0 +1,66 @@
+@use '../../styles/partials/variables' as *;
+
+.login {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 50vh;
+    background-color: $white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+
+    &__group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+    }
+
+    &__label {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    &__input {
+        border: 1px solid #D9D9D9;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 16px;
+        outline: none;
+        transition: all .2s;
+
+        &:focus {
+            border: 1px solid $primary-color;
+        }
+    }
+
+    &__submit {
+        border: none;
+        border-radius: 12px;
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        background-color: $primary-color;
+        color: $white;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid $primary-color;
+
+        &:hover {
+            color: $primary-color;
+            background-color: $white;
+        }
+    }
+
+}

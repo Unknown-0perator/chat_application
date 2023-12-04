@@ -1,0 +1,113 @@
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/variables' as *;
+
+.chat-room {
+
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 16px;
+        border-bottom: 1px solid gray;
+        padding-bottom: 16px;
+
+    }
+
+    &__back-button {}
+
+    &__back-icon {
+        height: 28px;
+    }
+
+    &__receiver {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    &__list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 16px 0;
+        width: 100%;
+        gap: 16px;
+        height: 50vh;
+        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    &__message {
+        font-size: 16px;
+        font-weight: 400;
+        border: none;
+        padding: 8px 16px;
+        max-width: 80%;
+
+        &--send {
+            border-radius: 25px 25px 0px 25px;
+            background: $primary-color;
+            color: $white;
+            align-self: flex-end;
+        }
+
+        &--receive {
+            border-radius: 25px 25px 25px 0px;
+            background: gray;
+            color: $white;
+            align-self: flex-start;
+        }
+    }
+
+    &__timestamp {
+        font-size: 12px;
+        display: flex;
+        flex-direction: row-reverse;
+        margin-top: 4px;
+    }
+
+    &__form {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    &__input-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+        background-color: #d9d9d9;
+        border-radius: 25px;
+    }
+
+    &__input {
+        border: none;
+        border-radius: 25px;
+        padding: 8px 12px;
+        resize: none;
+        width: 100%;
+        background-color: transparent;
+        font-size: 16px;
+        outline: none;
+
+    }
+
+    &__button {
+        border: none;
+        border-radius: 25px;
+        padding: 8px 12px;
+        font-size: 16px;
+        background-color: $primary-color;
+        color: $white;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid $primary-color;
+    }
+}
