@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { login } from '../../store/actions/authActions'; // Import the login action
+import { login } from '../../store/actions/authActions';
 import { setProfileData } from '../../store/actions/userActions';
 import './LoginPage.scss';
 import Header from '../../components/Header/Header';
@@ -11,7 +11,6 @@ import CTA from '../../components/CTA/CTA';
 const LoginPage = ({ API_URL, isLoggedIn, loginAction, setProfileData }) => {
     const navigate = useNavigate();
 
-    // Redirect if already logged in
     useEffect(() => {
         if (isLoggedIn) {
             navigate('/');
@@ -43,9 +42,7 @@ const LoginPage = ({ API_URL, isLoggedIn, loginAction, setProfileData }) => {
                     const authToken = response.data.token;
                     sessionStorage.authToken = authToken;
                     setProfileData(response.data)
-                    // Dispatch the login action to update Redux state
                     loginAction();
-
                     setTimeout(() => {
                         navigate('/');
                     });
